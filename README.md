@@ -163,15 +163,220 @@ Features:
   - Forecasted prices
 - Displays a **forecast table** with predicted prices
 
-### Running the app
+---
 
-From project root:
+## 7. Quick Start
+
+### Prerequisites
+
+- **Python 3.9+**
+- **pip** or **conda**
+
+### Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/blexyyyyy/mandi-sense.git
+   cd mandi-sense
+   ```
+
+2. **Create & activate a virtual environment**:
+   ```bash
+   python -m venv .venv
+   ```
+   
+   On **Windows (PowerShell)**:
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+   
+   On **macOS / Linux**:
+   ```bash
+   source .venv/bin/activate
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Prepare data**:
+   Place your raw mandi CSV in `raw_data/` and run the conversion script:
+   ```bash
+   python scripts/convert_raw_to_processed.py
+   ```
+   This creates `data/processed/onion_maharashtra_cleaned.csv`.
+
+5. **Launch the Streamlit app**:
+   ```bash
+   python run.py
+   ```
+   Or directly:
+   ```bash
+   streamlit run app/streamlit_app.py
+   ```
+
+   The app will open at **http://localhost:8501**
+
+---
+
+## 8. Project Structure
+
+```
+mandi-sense/
+├── app/
+│   └── streamlit_app.py          # Main UI
+├── src/
+│   ├── data_prep.py              # Data loading & aggregation
+│   ├── forecast_service.py        # Forecasting logic
+│   ├── features.py                # Feature engineering
+│   └── models.py                  # (Placeholder)
+├── scripts/
+│   └── convert_raw_to_processed.py # Raw → processed data pipeline
+├── notebooks/
+│   └── (EDA & modeling notebooks)
+├── data/
+│   ├── raw/                       # (git-ignored) Raw CSV from sources
+│   └── processed/                 # (git-ignored) Cleaned, aggregated data
+├── models/
+│   └── (git-ignored) Saved ML models
+├── run.py                         # Launcher script for the app
+├── requirements.txt               # Python dependencies
+├── .gitignore                     # Git exclusions
+└── README.md                      # This file
+```
+
+---
+
+## 9. Data Pipeline
+
+### Input: Raw Mandi CSV
+
+Expected columns:
+- `State`, `District`, `Market`
+- `Commodity`, `Variety`, `Grade`
+- `Arrival_Date` (or `Date`)
+- `Modal_x0020_Price`, `Min_x0020_Price`, `Max_x0020_Price` (or similar)
+
+### Processing
+
+Run `scripts/convert_raw_to_processed.py`:
+
+1. Filters for `Commodity == "Onion"` AND `State == "Maharashtra"`
+2. Renames columns to standard format
+3. Parses dates (handles `DD/MM/YYYY` format)
+4. Converts prices to numeric
+5. Outputs → `data/processed/onion_maharashtra_cleaned.csv`
+
+### Output: Processed Data
+
+Columns:
+- `Date` (datetime)
+- `Market` (str)
+- `Modal_Price` (float)
+- `Min_Price` (float)
+- `Max_Price` (float)
+
+The `load_clean_daily()` function in `src/data_prep.py` then:
+- Groups by date
+- Computes daily aggregates
+- Returns a 1-row-per-day series
+
+---
+
+## 10. Deployment
+
+### Local Development
 
 ```bash
-# (Optional) activate virtualenv
-# On Windows (PowerShell):
-# .venv\Scripts\Activate.ps1
+python run.py
+```
 
-pip install -r requirements.txt
+### Containerized (Docker)
 
-streamlit run app/streamlit_app.py
+*Optional: Create a `Dockerfile` and `docker-compose.yml` for production.*
+
+Example `Dockerfile`:
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+# Prepare data (if raw_data/ is mounted or copied)
+RUN python scripts/convert_raw_to_processed.py || true
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "app/streamlit_app.py", "--server.port=8501"]
+```
+
+### Cloud Deployment (Streamlit Cloud)
+
+1. Push the repo to GitHub
+2. Visit [share.streamlit.io](https://share.streamlit.io)
+3. Connect your GitHub repo
+4. Deploy
+
+**Important**: Ensure `data/processed/onion_maharashtra_cleaned.csv` is either:
+- Pre-downloaded and committed (not recommended for large files)
+- Downloaded at runtime from a public data source
+- Mounted from a volume in your deployment environment
+
+---
+
+## 11. Troubleshooting
+
+### Issue: `FileNotFoundError: No such file or directory: '.../data/processed/onion_maharashtra_cleaned.csv'`
+
+**Solution**: Run the conversion script first:
+```bash
+python scripts/convert_raw_to_processed.py
+```
+
+### Issue: Model training fails or predictions are constant
+
+This may occur if the processed data has too few rows or insufficient variance. The app falls back to a **ConstantModel** in such cases. To get better forecasts, ensure you have:
+- At least **30 days** of historical data
+- Multiple markets per day (for variance)
+
+### Issue: Streamlit app port already in use
+
+Use a different port:
+```bash
+streamlit run app/streamlit_app.py --server.port 8502
+```
+
+---
+
+## 12. Maintenance & Updates
+
+- **Data**: Update `raw_data/` regularly with new mandi price files
+- **Models**: Re-train periodically (monthly or quarterly) with `scripts/convert_raw_to_processed.py` and model training logic
+- **Dependencies**: Keep `requirements.txt` updated (`pip freeze > requirements.txt`)
+
+---
+
+## 13. License
+
+*Add your license here (e.g., MIT, Apache 2.0, etc.)*
+
+---
+
+## 14. Contributing
+
+*Add contribution guidelines if applicable.*
+
+---
+
+## Contacts
+
+For questions or issues, please open a GitHub issue or reach out to the maintainers.
+
+---
+
+**Last Updated**: December 2025

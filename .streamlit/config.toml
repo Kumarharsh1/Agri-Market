@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#2E7D32"         # Green 800
+backgroundColor = "#F9FBE7"      # Lime 50 (light background)
+secondaryBackgroundColor = "#E8F5E9" # Green 50 (sidebar)
+textColor = "#1B5E20"            # Green 900
+font = "sans serif"

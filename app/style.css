@@ -1,0 +1,79 @@
+/* Main container styling */
+.block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    max-width: 95%;
+    /* Force wider usage on large screens */
+}
+
+/* Custom Header Font (Google Font import not always reliable in Streamlit Cloud without generic HTML, 
+   but we'll style using available system fonts for a clean look) */
+h1,
+h2,
+h3 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1B5E20;
+    /* Dark Green */
+    font-weight: 700;
+}
+
+h1 {
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #A5D6A7;
+    /* Light Green border */
+    margin-bottom: 2rem;
+}
+
+/* Metrics Cards */
+[data-testid="stMetric"] {
+    background-color: #FFFFFF;
+    border: 1px solid #C8E6C9;
+    /* Green 100 */
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #558B2F;
+    /* Light Green 800 */
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+[data-testid="stMetricValue"] {
+    color: #2E7D32;
+    /* Green 800 */
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* DataFrame Styling */
+[data-testid="stDataFrame"] {
+    border: 1px solid #C8E6C9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Sidebar Styling */
+[data-testid="stSidebar"] {
+    background-color: #F1F8E9;
+    /* Light Lime */
+}
+
+/* Button Styling */
+.stButton>button {
+    background-color: #2E7D32;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.stButton>button:hover {
+    background-color: #1B5E20;
+    color: white;
+}

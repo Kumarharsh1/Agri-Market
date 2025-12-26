@@ -1,17 +1,45 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
 
 # Jupyter
 .ipynb_checkpoints/
+*.ipynb
 
-# Data (DO NOT TRACK RAW OR PROCESSED)
-data/raw/
-data/processed/
-
-# Models
+# Data & models
+data/
+raw_data/
 models/
+*.csv
 
-# Streamlit cache
-.streamlit/
+!data/processed/onion_maharashtra_cleaned.csv
+*.pkl
+*.joblib
+
+# Streamlit
+.streamlit/secrets.toml
+
+.streamlit_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug & logs
+debug_*.py
+*.log
+.env

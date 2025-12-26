@@ -21,3 +21,6 @@ streamlit
 python-dateutil
 jupyter
 ipykernel
+
+# Testing
+pytest
