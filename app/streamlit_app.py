@@ -13,14 +13,14 @@ if str(BASE_DIR) not in sys.path:
 
 # Auto-prepare processed data on first run (useful for Streamlit Cloud)
 PROCESSED_PATH = BASE_DIR / "data" / "processed" / "onion_maharashtra_cleaned.csv"
-CONVERT_SCRIPT = BASE_DIR / "scripts" / "convert_raw_to_processed.py"
+GENERATOR_SCRIPT = BASE_DIR / "scripts" / "generate_dummy_data.py"
+
 if not PROCESSED_PATH.exists():
     try:
-        st.info("Preparing data (running conversion script)...")
-        subprocess.run([sys.executable, str(CONVERT_SCRIPT)], check=True)
+        st.info("Generating data for first run...")
+        subprocess.run([sys.executable, str(GENERATOR_SCRIPT)], check=True)
     except Exception as e:
-        # If data prep fails, show a friendly message but continue — app can still load if data is present elsewhere
-        st.warning(f"Data preparation failed: {e}")
+        st.warning(f"Data generation failed: {e}")
 
 from src.data_prep import load_clean_daily
 from src.forecast_service import make_forecast
