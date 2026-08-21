@@ -1,3 +1,10 @@
+HEAD
+
+# Agri-Market
+
+Forked and extended from [mandi-sense](https://github.com/blexyyyyy/mandi-sense) — adding fair-price marketplace features, sell-now-or-wait recommendations, and nearest-profitable-mandi routing for farmers.
+
+---
 # Mandi-Sense: Onion Price Forecasting for Maharashtra Mandis
 
 Mandi-Sense is a small end-to-end ML project that forecasts **short-term onion prices** for **Maharashtra mandis** using historical government mandi data.
@@ -380,3 +387,6 @@ For questions or issues, please open a GitHub issue or reach out to the maintain
 ---
 
 **Last Updated**: December 2025
+
+# Agri-Market
+2910fe47a61447b98c264237f5698186b1229dd9
