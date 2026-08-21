@@ -2,25 +2,15 @@
 pandas
 numpy
 
-# Visualization
-matplotlib
-seaborn
-
 # Machine Learning
 scikit-learn
-xgboost
-lightgbm
 
 # Model saving/loading
 joblib
 
-# App (Dashboard)
-streamlit
+# Backend API
+fastapi
+uvicorn[standard]
 
 # Utilities
 python-dateutil
-jupyter
-ipykernel
-
-# Testing
-pytest
